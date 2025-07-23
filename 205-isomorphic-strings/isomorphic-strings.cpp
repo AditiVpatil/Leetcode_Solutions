@@ -4,28 +4,15 @@ public:
         if (s.size() != t.size())
             return false;
 
-        unordered_map<char, char> fromS;
-        unordered_map<char, char> fromT; 
+        int lastSeenS[256] = {0}; // ASCII character range
+        int lastSeenT[256] = {0};
 
         for (int i = 0; i < s.size(); i++) {
-            char chS = s[i];
-            char chT = t[i];
+            if (lastSeenS[s[i]] != lastSeenT[t[i]])
+                return false;
 
-            // Check if chS already mapped to some character
-            if (fromS.count(chS)) {
-                if (fromS[chS] != chT)
-                    return false;
-            } else {
-                fromS[chS] = chT;
-            }
-
-            // Check if chT already mapped to some character
-            if (fromT.count(chT)) {
-                if (fromT[chT] != chS)
-                    return false;
-            } else {
-                fromT[chT] = chS;
-            }
+            lastSeenS[s[i]] = i + 1;
+            lastSeenT[t[i]] = i + 1;
         }
 
         return true;
