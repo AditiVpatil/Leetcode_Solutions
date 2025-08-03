@@ -1,20 +1,20 @@
 class Solution {
 public:
-    bool isStrictlyIncreasing(const std::vector<int>& nums, int start, int end) {
+    bool isStrictlyIncreasing(vector<int>& nums, int start, int end) {
         for (int i = start; i < end; ++i) {
             if (nums[i] >= nums[i + 1]) return false;
         }
         return true;
     }
 
-    bool isStrictlyDecreasing(const std::vector<int>& nums, int start, int end) {
+    bool isStrictlyDecreasing(vector<int>& nums, int start, int end) {
         for (int i = start; i < end; ++i) {
             if (nums[i] <= nums[i + 1]) return false;
         }
         return true;
     }
 
-    bool isTrionic(std::vector<int>& nums) {
+    bool isTrionic(vector<int>& nums) {
         int n = nums.size();
         if (n < 4) return false;
 
