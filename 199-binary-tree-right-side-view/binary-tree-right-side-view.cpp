@@ -11,26 +11,22 @@
  */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> res;
-        if (!root) return res;
+    void dfs(TreeNode* node, int depth, vector<int>& res) {
+        if (!node) return;
 
-        queue<TreeNode*> q;
-        q.push(root);
-
-        while (!q.empty()) {
-            int levelSize = q.size();
-            for (int i = 0; i < levelSize; i++) {
-                TreeNode* node = q.front();
-                q.pop();
-                // Take the last node of this level
-                if (i == levelSize - 1) res.push_back(node->val);
-
-                if (node->left) q.push(node->left);
-                if (node->right) q.push(node->right);
-            }
+        //  first node at this depth, add it
+        if (depth == res.size()) {
+            res.push_back(node->val);
         }
 
+        // Traverse right first
+        dfs(node->right, depth + 1, res);
+        dfs(node->left, depth + 1, res);
+    }
+
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        dfs(root, 0, res);
         return res;
     }
 };
