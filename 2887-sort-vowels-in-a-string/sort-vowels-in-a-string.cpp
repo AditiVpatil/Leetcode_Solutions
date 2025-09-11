@@ -1,30 +1,30 @@
 class Solution {
 public:
     string sortVowels(string s) {
-        
         auto isVowel = [](char c) {
             return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
                    c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
         };
 
-        
-        vector<char> vowels;
+        // Count frequencies of vowels
+        vector<int> freq(128, 0); // ASCII size
         for (char c : s) {
-            if (isVowel(c)) {
-                vowels.push_back(c);
-            }
+            if (isVowel(c)) freq[c]++;
         }
 
-        
-        sort(vowels.begin(), vowels.end());
-
-        int idx = 0;
+        // Replace vowels in sorted order using counting sort
+        string order = "AEIOUaeiou";  
+        int pos = 0;
         for (char &c : s) {
             if (isVowel(c)) {
-                c = vowels[idx++];
+                // Find next available vowel in sorted order
+                while (pos < order.size() && freq[order[pos]] == 0) {
+                    pos++;
+                }
+                c = order[pos];
+                freq[order[pos]]--;
             }
         }
-
         return s;
     }
 };
