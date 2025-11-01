@@ -11,7 +11,7 @@
 class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
-    unordered_set<int> toDelete(nums.begin(), nums.end());
+        unordered_set<int> toDelete(nums.begin(), nums.end());
     ListNode* dummy = new ListNode(0);
     dummy->next = head;
     ListNode* curr = dummy;
@@ -25,5 +25,5 @@ public:
     }
 
     return dummy->next;
-}
+    }
 };
