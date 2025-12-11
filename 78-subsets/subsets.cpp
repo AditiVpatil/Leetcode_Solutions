@@ -1,19 +1,25 @@
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        int n = nums.size();
-        int total = 1 << n;  // 2^n subsets
-        vector<vector<int>> res;
+    vector<vector<int>> ans;
 
-        for (int i = 0; i < total; i++) {
-            vector<int> subset;
-            for (int j = 0; j < n; j++) {
-                if (i & (1 << j)) { // check if jth bit is set
-                    subset.push_back(nums[j]);
-                }
-            }
-            res.push_back(subset);
+    void solve(int i, vector<int> &nums, vector<int> &temp) {
+        if(i == nums.size()) {
+            ans.push_back(temp);
+            return;
         }
-        return res;
+
+        // NOT PICK
+        solve(i + 1, nums, temp);
+
+        // PICK
+        temp.push_back(nums[i]);
+        solve(i + 1, nums, temp);
+        temp.pop_back(); 
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> temp;
+        solve(0, nums, temp);
+        return ans;
     }
 };
