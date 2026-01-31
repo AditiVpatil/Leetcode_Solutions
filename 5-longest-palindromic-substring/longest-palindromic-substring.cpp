@@ -1,39 +1,33 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
+    string s;
+    vector<vector<int>> memo;
+    int start = 0, maxLen = 1;
+
+    bool isPal(int i, int j) {
+        if (i >= j) return true;
+
+        if (memo[i][j] != -1)
+            return memo[i][j];
+
+        if (s[i] != s[j])
+            return memo[i][j] = false;
+
+        return memo[i][j] = isPal(i + 1, j - 1);
+    }
+
+    string longestPalindrome(string str) {
+        s = str;
         int n = s.size();
-        if (n == 0) return "";
+        memo.assign(n, vector<int>(n, -1));
 
-        vector<vector<bool>> dp(n, vector<bool>(n, false));
-
-        int start = 0;
-        int maxLen = 1;
-
-        // length = 1
         for (int i = 0; i < n; i++) {
-            dp[i][i] = true;
-        }
-
-        // length = 2
-        for (int i = 0; i < n - 1; i++) {
-            if (s[i] == s[i + 1]) {
-                dp[i][i + 1] = true;
-                start = i;
-                maxLen = 2;
-            }
-        }
-
-        // length >= 3
-        for (int len = 3; len <= n; len++) {
-            for (int i = 0; i + len - 1 < n; i++) {
-                int j = i + len - 1;
-
-                if (s[i] == s[j] && dp[i + 1][j - 1]) {
-                    dp[i][j] = true;
-
+            for (int j = i; j < n; j++) {
+                if (isPal(i, j)) {
+                    int len = j - i + 1;
                     if (len > maxLen) {
-                        start = i;
                         maxLen = len;
+                        start = i;
                     }
                 }
             }
